@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.dgut.dao.MaskMapper">
+    <select id="maskCount" resultType="int">
+        SELECT count(*) FROM mask
+    </select>
+
+    <select id="findByPaging" parameterType="com.dgut.domain.PagingVO" resultType="com.dgut.domain.Mask">
+        SELECT * FROM mask
+        limit #{toPageNo}, #{pageSize}
+    </select>
+
+    <insert id="add" parameterType="com.dgut.domain.Mask">
+        INSERT INTO mask VALUES(null,#{name},#{message})
+    </insert>
+
+    <select id="findById" parameterType="int" resultType="com.dgut.domain.Mask">
+        SELECT * FROM mask WHERE id=#{id}
+    </select>
+
+    <select id="findByName" parameterType="java.lang.String" resultType="com.dgut.domain.Mask">
+        SELECT * FROM mask
+        <where>
+            <if test="value!=null and value!=''">
+                AND name LIKE '%${value}%'
+            </if>
+        </where>
+    </select>
+
+    <select id="nameList" resultType="com.dgut.domain.Mask">
+        SELECT a.name FROM mask a
+    </select>
+
+    <update id="updateById" parameterType="com.dgut.domain.Mask">
+        UPDATE mask
+        <set>
+            <if test="name!=null and name!=''">
+                name=#{name},
+            </if>
+            <if test="message!=null and message!=''">
+                message=#{message},
+            </if>
+        </set>
+        WHERE id=#{id}
+    </update>
+
+    <update id="removeById" parameterType="int">
+        DELETE FROM mask WHERE id=#{id}
+    </update>
+</mapper>
